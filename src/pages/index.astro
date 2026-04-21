@@ -105,7 +105,7 @@ const portfolio = [
       </div>
 
       <!-- Hero image -->
-      <div class="relative animate-fade-in delay-300">
+      <div class="relative animate-fade-in delay-300 lg:max-w-md lg:ml-auto">
         <div class="aspect-[3/4] relative overflow-hidden">
           <img
             src={`${UNSPLASH}/photo-1509631179647-0177331693ae?w=800&h=1067&fit=crop&q=85`}
@@ -350,7 +350,7 @@ const portfolio = [
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {recentPosts.map((post) => (
-          <a href={`/blog/${post.slug}`} class="group block">
+          <a href={`/blog/${post.id}`} class="group block">
             <div class="overflow-hidden mb-5">
               <img
                 src={post.data.image ?? `${UNSPLASH}/photo-1512436991641-6745cdb1723f?w=600&h=400&fit=crop&q=80`}

@@ -152,8 +152,15 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
     line-height: 1.75;
     font-weight: 300;
   }
-  .prose-vany figure {
+  .prose-vany :global(figure) {
     margin: 0 0 2.5rem 0;
+  }
+  .prose-vany :global(figcaption) {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #8C7B74;
   }
   .prose-vany :global(blockquote) {
     border-left: 2px solid #B8896A;
