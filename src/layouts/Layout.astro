@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+}
+
+const {
+  title = 'Vany Modelista — Alta Costura & Modelagem',
+  description = 'Modelista profissional especializada em alta costura, modelagem feminina e alfaiataria. Transformando ideias em peças únicas com precisão e elegância.',
+  image = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=630&fit=crop&q=85',
+  url = Astro.url.href,
+  type = 'website',
+} = Astro.props;
+
+const siteName = 'Vany Modelista';
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO básico -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Vany Modelista" />
+    <meta name="keywords" content="modelista, modelagem de moda, alta costura, alfaiataria, moldes, costura sob medida, São Paulo, moda feminina, ateliê" />
+    <meta name="theme-color" content="#B8896A" />
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vany Modelista — Alta Costura & Modelagem" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Schema.org JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Vany Modelista",
+      "description": description,
+      "url": canonicalUrl,
+      "image": image,
+      "telephone": "",
+      "email": "vany@modelista.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://instagram.com/vanymodelista"
+      ],
+      "priceRange": "$$",
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "hasMap": "https://maps.google.com/?q=São+Paulo,+SP",
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": -23.5505,
+          "longitude": -46.6333
+        },
+        "geoRadius": "50000"
+      },
+      "knowsAbout": [
+        "Modelagem de moda",
+        "Alta costura",
+        "Alfaiataria",
+        "Modelagem feminina",
+        "Moda sob medida"
+      ]
+    })} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

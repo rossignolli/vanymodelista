@@ -1,0 +1,167 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts: CollectionEntry<'blog'>[] = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
+---
+
+<Layout
+  title={`${post.data.title} — Vany Modelista`}
+  description={post.data.description}
+  image={post.data.image}
+  type="article"
+>
+  <Nav />
+
+  <article>
+    <div class="relative pt-32 pb-16 px-6 lg:px-12" style="background-color: #1C1917;">
+      <div class="max-w-3xl mx-auto">
+        <a href="/blog" class="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase mb-8 transition-colors duration-300 hover:text-rose-light" style="color: #8C7B74;">
+          ← Voltar ao blog
+        </a>
+        <p class="text-xs tracking-[0.3em] uppercase mb-4 font-medium" style="color: #D4A88A;">{post.data.category}</p>
+        <h1 class="font-display font-light leading-tight mb-6" style="font-size: clamp(2rem,5vw,3.5rem); color: #FAF8F4;">
+          {post.data.title}
+        </h1>
+        <p class="text-sm font-light" style="color: #8C7B74;">
+          {new Date(post.data.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+        </p>
+      </div>
+    </div>
+
+    {post.data.youtube && (
+      <div class="px-6 lg:px-12 py-12" style="background-color: #FAF8F4;">
+        <div class="max-w-3xl mx-auto">
+          <p class="text-xs tracking-[0.3em] uppercase mb-4 font-medium" style="color: #B8896A;">Assista também</p>
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <iframe
+              class="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${post.data.youtube}`}
+              title={post.data.title}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    )}
+
+    <div class="px-6 lg:px-12 py-16" style="background-color: #FAF8F4;">
+      <div class="max-w-3xl mx-auto prose-vany">
+        {post.data.image && (
+          <figure class="mb-10">
+            <img
+              src={post.data.image}
+              alt={post.data.title}
+              class="w-full object-cover"
+              style="max-height: 480px;"
+            />
+            <figcaption class="text-xs mt-2 text-center tracking-wide" style="color: #8C7B74;">
+              {post.data.category} — {post.data.title}
+            </figcaption>
+          </figure>
+        )}
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="py-20 px-6 lg:px-12" style="background-color: #F0EDE6;">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-xs tracking-[0.3em] uppercase mb-10 font-medium" style="color: #8C7B74;">Continue lendo</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {related.map(p => (
+            <a href={`/blog/${p.id}`} class="group block">
+              <div class="overflow-hidden mb-4">
+                <img
+                  src={p.data.image ?? 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=400&fit=crop&q=80'}
+                  alt={p.data.title}
+                  class="w-full aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <p class="text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #B8896A;">{p.data.category}</p>
+              <h3 class="font-display text-xl font-light leading-snug transition-colors duration-300 group-hover:text-rose" style="color: #1C1917;">
+                {p.data.title}
+              </h3>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>
+
+<style>
+  .prose-vany :global(h2) {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: #1C1917;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .prose-vany :global(h3) {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: #1C1917;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-vany :global(p) {
+    font-size: 0.9375rem;
+    line-height: 1.85;
+    color: #44403C;
+    margin-bottom: 1.25rem;
+    font-weight: 300;
+  }
+  .prose-vany :global(strong) {
+    font-weight: 500;
+    color: #1C1917;
+  }
+  .prose-vany :global(ul), .prose-vany :global(ol) {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+    color: #44403C;
+  }
+  .prose-vany :global(li) {
+    margin-bottom: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .prose-vany figure {
+    margin: 0 0 2.5rem 0;
+  }
+  .prose-vany :global(blockquote) {
+    border-left: 2px solid #B8896A;
+    padding-left: 1.25rem;
+    margin: 2rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #44403C;
+  }
+</style>

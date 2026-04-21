@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const featured = posts.filter(p => p.data.featured);
+const rest = posts.filter(p => !p.data.featured);
+---
+
+<Layout
+  title="Blog — Vany Modelista"
+  description="Dicas de modelagem, técnicas de costura, escolha de tecidos e bastidores do atelier. Conteúdo para quem ama moda e costura."
+>
+  <Nav />
+
+  <section class="pt-40 pb-20 px-6 lg:px-12" style="background-color: #FAF8F4;">
+    <div class="max-w-7xl mx-auto">
+      <p class="text-xs tracking-[0.35em] uppercase mb-4 font-medium animate-fade-up" style="color: #B8896A;">Conteúdo</p>
+      <h1 class="font-display font-light leading-tight mb-4 animate-fade-up delay-100" style="font-size: clamp(3rem,7vw,6rem); color: #1C1917;">
+        Blog & Bastidores
+      </h1>
+      <p class="text-base font-light max-w-lg animate-fade-up delay-200" style="color: #8C7B74;">
+        Técnicas, dicas e reflexões sobre o universo da modelagem de moda.
+      </p>
+    </div>
+  </section>
+
+  <!-- Destaques -->
+  {featured.length > 0 && (
+    <section class="pb-20 px-6 lg:px-12" style="background-color: #FAF8F4;">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {featured.map((post) => (
+            <a href={`/blog/${post.id}`} class="group block">
+              <div class="overflow-hidden mb-5">
+                <img
+                  src={post.data.image ?? 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=500&fit=crop&q=80'}
+                  alt={post.data.title}
+                  class="w-full aspect-[16/9] object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <p class="text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #B8896A;">{post.data.category}</p>
+              <h2 class="font-display text-2xl lg:text-3xl font-light leading-snug mb-3 transition-colors duration-300 group-hover:[color:#B8896A]" style="color: #1C1917;">
+                {post.data.title}
+              </h2>
+              <p class="text-sm font-light leading-relaxed" style="color: #8C7B74;">{post.data.description}</p>
+              <div class="flex items-center gap-2 mt-4">
+                <span class="text-xs tracking-[0.15em]" style="color: #8C7B74;">
+                  {new Date(post.data.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                </span>
+                <span class="text-xs" style="color: rgba(140,123,116,0.4);">·</span>
+                <span class="text-xs tracking-wide transition-colors duration-300 group-hover:[color:#B8896A]" style="color: #8C7B74;">Ler artigo →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Demais posts -->
+  {rest.length > 0 && (
+    <section class="py-20 px-6 lg:px-12" style="background-color: #F0EDE6;">
+      <div class="max-w-7xl mx-auto">
+        <p class="text-xs tracking-[0.3em] uppercase mb-12 font-medium" style="color: #8C7B74;">Mais artigos</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {rest.map((post) => (
+            <a href={`/blog/${post.id}`} class="group block">
+              <div class="overflow-hidden mb-4">
+                <img
+                  src={post.data.image ?? 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&h=400&fit=crop&q=80'}
+                  alt={post.data.title}
+                  class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <p class="text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #B8896A;">{post.data.category}</p>
+              <h3 class="font-display text-xl font-light leading-snug mb-2 transition-colors duration-300 group-hover:[color:#B8896A]" style="color: #1C1917;">
+                {post.data.title}
+              </h3>
+              <p class="text-xs font-light leading-relaxed line-clamp-2" style="color: #8C7B74;">{post.data.description}</p>
+              <p class="text-xs mt-3" style="color: rgba(140,123,116,0.6);">
+                {new Date(post.data.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>
