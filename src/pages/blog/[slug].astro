@@ -19,6 +19,37 @@ const allPosts: CollectionEntry<'blog'>[] = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
+
+const postUrl = `https://vanymodelista.com.br/blog/${post.id}`;
+const publishedDate = post.data.date.toISOString();
+const articleSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": post.data.image ?? "https://vanymodelista.com.br/hero-mannequins.jpg",
+  "datePublished": publishedDate,
+  "author": {
+    "@type": "Person",
+    "name": post.data.author,
+    "url": "https://vanymodelista.com.br"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vany Modelista",
+    "url": "https://vanymodelista.com.br",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://vanymodelista.com.br/favicon.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": postUrl
+  },
+  "articleSection": post.data.category,
+  "url": postUrl
+});
 ---
 
 <Layout
@@ -27,6 +58,13 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
   image={post.data.image}
   type="article"
 >
+  <Fragment slot="head">
+    <meta property="article:published_time" content={publishedDate} />
+    <meta property="article:author" content={post.data.author} />
+    <meta property="article:section" content={post.data.category} />
+    <script is:inline type="application/ld+json" set:html={articleSchema} />
+  </Fragment>
+
   <Nav lightText />
 
   <article>
