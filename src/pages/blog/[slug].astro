@@ -84,24 +84,6 @@ const articleSchema = JSON.stringify({
       </div>
     </div>
 
-    {post.data.youtube && (
-      <div class="px-6 lg:px-12 py-12" style="background-color: #FAF8F4;">
-        <div class="max-w-3xl mx-auto">
-          <p class="text-xs tracking-[0.3em] uppercase mb-4 font-medium" style="color: #B8896A;">Assista também</p>
-          <div class="relative w-full" style="padding-top: 56.25%;">
-            <iframe
-              class="absolute inset-0 w-full h-full"
-              src={`https://www.youtube.com/embed/${post.data.youtube}`}
-              title={post.data.title}
-              style="border: 0;"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    )}
-
     <div class="px-6 lg:px-12 py-16" style="background-color: #FAF8F4;">
       <div class="max-w-3xl mx-auto prose-vany">
         {post.data.image && (
@@ -120,6 +102,25 @@ const articleSchema = JSON.stringify({
         <Content />
       </div>
     </div>
+
+    {post.data.youtube && (
+      <div class="px-6 lg:px-12 pb-16" style="background-color: #FAF8F4;">
+        <div class="max-w-3xl mx-auto">
+          <div class="h-px mb-10" style="background-color: rgba(184,137,106,0.2);"></div>
+          <p class="text-xs tracking-[0.3em] uppercase mb-4 font-medium" style="color: #B8896A;">Assista também</p>
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <iframe
+              class="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${post.data.youtube}`}
+              title={post.data.title}
+              style="border: 0;"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    )}
   </article>
 
   {related.length > 0 && (
