@@ -104,6 +104,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <slot name="head" />
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-28SLQTH286"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-28SLQTH286');
+    </script>
   </head>
   <body>
     <slot />
