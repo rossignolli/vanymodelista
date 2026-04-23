@@ -39,6 +39,7 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
         <h1 class="font-display font-light leading-tight mb-6" style="font-size: clamp(2rem,5vw,3.5rem); color: #FAF8F4;">
           {post.data.title}
         </h1>
+        <p class="text-xs tracking-[0.2em] uppercase mb-2 font-medium" style="color: #D4A88A;">Por: {post.data.author}</p>
         <p class="text-sm font-light" style="color: #8C7B74;">
           {new Date(post.data.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
         </p>

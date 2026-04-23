@@ -8,6 +8,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     category: z.string(),
+    author: z.string().default('Vany Modelista'),
     image: z.string().optional(),
     youtube: z.string().optional(),
     featured: z.boolean().default(false),

@@ -6,6 +6,23 @@ import { getCollection } from 'astro:content';
 
 const UNSPLASH = 'https://images.unsplash.com';
 
+// Busca último vídeo do canal via RSS (sem API key, no build time)
+let latestVideo = { id: '', title: 'Último vídeo', thumbnail: '' };
+try {
+  const rss = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=UC9_KWopiNSiCzOtHrSbYJ2Q');
+  const xml = await rss.text();
+  const idMatch = xml.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+  const titleMatch = xml.match(/<title>([^<]+)<\/title>/g);
+  if (idMatch) {
+    latestVideo.id = idMatch[1];
+    latestVideo.thumbnail = `https://i.ytimg.com/vi/${idMatch[1]}/maxresdefault.jpg`;
+    // segundo <title> é o do vídeo (primeiro é o do canal)
+    if (titleMatch && titleMatch[1]) {
+      latestVideo.title = titleMatch[1].replace(/<\/?title>/g, '');
+    }
+  }
+} catch {}
+
 const recentPosts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
@@ -71,7 +88,7 @@ const portfolio = [
   <Nav />
 
   <!-- HERO -->
-  <section class="relative min-h-screen flex items-end pb-24 px-6 lg:px-12 overflow-hidden" style="background-color: #FAF8F4;">
+  <section class="relative min-h-screen flex items-end pt-24 pb-24 px-6 lg:px-12 lg:pt-0 overflow-hidden" style="background-color: #FAF8F4;">
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="absolute top-0 right-0 w-1/2 h-full" style="background-color: #F0EDE6; clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);"></div>
       <div class="absolute top-1/4 right-[10%] w-px h-64 animate-fade-in delay-900" style="background-color: rgba(184,137,106,0.2);"></div>
@@ -108,8 +125,8 @@ const portfolio = [
       <div class="relative animate-fade-in delay-300 lg:max-w-md lg:ml-auto">
         <div class="aspect-[3/4] relative overflow-hidden">
           <img
-            src={`${UNSPLASH}/photo-1509631179647-0177331693ae?w=800&h=1067&fit=crop&q=85`}
-            alt="Atelier de modelagem"
+            src="/hero-mannequins.jpg"
+            alt="Manequins de costura"
             class="w-full h-full object-cover"
           />
           <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(28,25,23,0.3) 0%, transparent 60%);"></div>
@@ -119,7 +136,7 @@ const portfolio = [
       </div>
     </div>
 
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in delay-900">
+    <div class="hidden lg:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 animate-fade-in delay-900">
       <p class="text-[10px] tracking-[0.3em] uppercase" style="color: #8C7B74;">Rolar</p>
       <div class="w-px h-12" style="background-color: rgba(184,137,106,0.4);"></div>
     </div>
@@ -138,23 +155,11 @@ const portfolio = [
           <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(28,25,23,0.6) 0%, transparent 50%);"></div>
           <div class="absolute bottom-0 left-0 right-0 p-8">
             <div class="h-px mb-4 w-16" style="background-color: rgba(184,137,106,0.6);"></div>
-            <p class="text-xs tracking-[0.25em] uppercase" style="color: #D4A88A;">Desde 2004</p>
+            <p class="text-xs tracking-[0.25em] uppercase" style="color: #D4A88A;">Vany Modelista</p>
           </div>
         </div>
         <div class="absolute -top-6 -right-6 w-32 h-32" style="border: 1px solid rgba(184,137,106,0.2);"></div>
 
-        <div class="grid grid-cols-3 gap-4 mt-4">
-          {[
-            { num: '20+', label: 'Anos de Experiência' },
-            { num: '500+', label: 'Peças Criadas' },
-            { num: '3', label: 'Premiações' },
-          ].map(stat => (
-            <div class="text-center py-5 px-2" style="border: 1px solid rgba(255,255,255,0.1);">
-              <p class="font-display text-3xl font-light" style="color: #D4A88A;">{stat.num}</p>
-              <p class="text-[10px] tracking-[0.15em] uppercase mt-1" style="color: #8C7B74;">{stat.label}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
       <div>
@@ -309,17 +314,21 @@ const portfolio = [
           </a>
         </div>
 
-        <!-- Thumbnail do canal -->
+        <!-- Último vídeo do canal -->
         <div class="relative">
-          <div class="aspect-video relative overflow-hidden" style="background-color: #1C1917;">
-            <img
-              src={`${UNSPLASH}/photo-1571513722275-4b41940f54b8?w=800&h=450&fit=crop&q=80`}
-              alt="Canal YouTube Vany Modelista"
-              class="w-full h-full object-cover opacity-70"
-            />
+          <div id="yt-player" class="aspect-video relative overflow-hidden cursor-pointer" style="background-color: #1C1917;" data-video-id={latestVideo.id}>
+            {latestVideo.thumbnail ? (
+              <img
+                src={latestVideo.thumbnail}
+                alt={latestVideo.title}
+                class="w-full h-full object-cover opacity-80"
+              />
+            ) : (
+              <div class="w-full h-full" style="background-color: #1C1917;"></div>
+            )}
             <!-- Play button -->
             <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-110 cursor-pointer" style="background-color: rgba(255,0,0,0.9);">
+              <div class="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-110" style="background-color: rgba(255,0,0,0.9);">
                 <svg class="w-7 h-7 translate-x-0.5" fill="white" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
@@ -327,10 +336,27 @@ const portfolio = [
             </div>
             <div class="absolute bottom-0 left-0 right-0 px-5 py-4" style="background: linear-gradient(to top, rgba(28,25,23,0.9), transparent);">
               <p class="text-xs tracking-[0.2em] uppercase mb-1" style="color: #D4A88A;">Último vídeo</p>
-              <p class="font-display text-lg font-light" style="color: #FAF8F4;">Modelagem de Blusa Básica do Zero</p>
+              <p class="font-display text-lg font-light" style="color: #FAF8F4;">{latestVideo.title}</p>
             </div>
           </div>
         </div>
+
+        <script>
+          const player = document.getElementById('yt-player');
+          if (player) {
+            player.addEventListener('click', () => {
+              const videoId = player.dataset.videoId;
+              if (!videoId) return;
+              const iframe = document.createElement('iframe');
+              iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+              iframe.allow = 'autoplay; encrypted-media';
+              iframe.allowFullscreen = true;
+              iframe.className = 'absolute inset-0 w-full h-full';
+              player.innerHTML = '';
+              player.appendChild(iframe);
+            });
+          }
+        </script>
       </div>
     </div>
   </section>
@@ -392,16 +418,16 @@ const portfolio = [
 
           <div class="space-y-4">
             <a href="mailto:vanymodelista@gmail.com" class="flex items-center gap-4 group">
-              <div class="w-10 h-10 flex items-center justify-center transition-all duration-300 group-hover:bg-rose" style="border: 1px solid rgba(184,137,106,0.3);">
-                <svg class="w-4 h-4 transition-colors duration-300 group-hover:text-cream" style="color: #B8896A;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 flex items-center justify-center transition-all duration-300" style="border: 1px solid rgba(184,137,106,0.3); color: #B8896A; background-color: transparent;" onmouseover="this.style.backgroundColor='#B8896A'; this.style.color='#FAF8F4';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#B8896A';">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
               <span class="text-sm transition-colors duration-300 group-hover:text-rose" style="color: #44403C;">vanymodelista@gmail.com</span>
             </a>
             <a href="https://instagram.com/vanymodelista" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
-              <div class="w-10 h-10 flex items-center justify-center transition-all duration-300" style="border: 1px solid rgba(184,137,106,0.3); background: linear-gradient(white, white) padding-box, linear-gradient(135deg, #f09433, #bc1888) border-box; border: 1px solid transparent;">
-                <svg class="w-4 h-4" style="color: #B8896A;" fill="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 flex items-center justify-center transition-all duration-300" style="border: 1px solid rgba(184,137,106,0.3); color: #B8896A; background-color: transparent;" onmouseover="this.style.backgroundColor='#B8896A'; this.style.color='#FAF8F4';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#B8896A';">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </div>
@@ -441,11 +467,10 @@ const portfolio = [
             </div>
           </div>
           <div>
-            <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Celular com DDD</label>
+            <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Celular com DDD <span class="normal-case tracking-normal font-normal" style="color: #B0A09A;">(opcional)</span></label>
             <input
               type="tel"
               name="celular"
-              required
               placeholder="(11) 99999-9999"
               maxlength="15"
               id="celular-input"
