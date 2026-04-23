@@ -19,5 +19,5 @@ Em seguida basta seguir o passo a passo da imagem à baixo:
 
 <figure>
   <img src="/blog/manga-duas-folhas/esquema.png" alt="Esquema de modelagem de manga duas folhas" />
-  <figcaption>"Esquema de modelagem de manga duas folhas"</figcaption>
+  <figcaption>Esquema de modelagem de manga duas folhas</figcaption>
 </figure>

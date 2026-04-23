@@ -3,11 +3,11 @@ title: "A Diferença Entre Tecidos e Como Cada Um Se Comporta no Molde"
 description: "Viscose, crepe, alfaiataria ou seda — cada tecido pede uma abordagem diferente na hora de modelar. Entenda as principais diferenças."
 date: 2024-02-20
 category: "Tecidos"
-image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=630&fit=crop&q=85"
+image: "https://images.unsplash.com/photo-1718184021018-d2158af6b321?w=1200&h=630&fit=crop&q=85"
 featured: false
 ---
 
-Uma das perguntas que mais recebo de alunas e de quem está começando no mundo da costura é: "posso usar o mesmo molde para tecidos diferentes?"
+Uma das perguntas que mais recebo de quem está começando no mundo da costura é: "posso usar o mesmo molde para tecidos diferentes?"
 
 A resposta curta é não. A longa é o que vou explicar aqui.
 

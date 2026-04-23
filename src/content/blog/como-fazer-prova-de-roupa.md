@@ -3,7 +3,7 @@ title: "Como Se Preparar Para a Prova de Roupa e Aproveitar Melhor o Atelier"
 description: "Dicas práticas para clientes que vão ao atelier pela primeira vez: o que vestir, o que comunicar e como identificar o que precisa ser ajustado."
 date: 2024-05-10
 category: "Dicas"
-image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1200&h=630&fit=crop&q=85"
+image: "/blog/prova-de-roupa.png"
 featured: false
 ---
 
