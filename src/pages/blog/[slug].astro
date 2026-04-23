@@ -27,7 +27,7 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
   image={post.data.image}
   type="article"
 >
-  <Nav />
+  <Nav lightText />
 
   <article>
     <div class="relative pt-32 pb-16 px-6 lg:px-12" style="background-color: #1C1917;">
@@ -54,7 +54,7 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
               class="absolute inset-0 w-full h-full"
               src={`https://www.youtube.com/embed/${post.data.youtube}`}
               title={post.data.title}
-              frameborder="0"
+              style="border: 0;"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
@@ -66,12 +66,12 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
     <div class="px-6 lg:px-12 py-16" style="background-color: #FAF8F4;">
       <div class="max-w-3xl mx-auto prose-vany">
         {post.data.image && (
-          <figure class="mb-10">
+          <figure class="mb-10 flex flex-col items-center">
             <img
               src={post.data.image}
               alt={post.data.title}
-              class="w-full object-cover"
-              style="max-height: 480px;"
+              class="object-contain lightbox-trigger"
+              style="max-height: 520px; max-width: 85%; cursor: zoom-in;"
             />
             <figcaption class="text-xs mt-2 text-center tracking-wide" style="color: #8C7B74;">
               {post.data.category} — {post.data.title}
@@ -171,4 +171,78 @@ const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
     font-style: italic;
     color: #44403C;
   }
+  .prose-vany :global(img) {
+    cursor: zoom-in;
+  }
+
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.92);
+    align-items: center;
+    justify-content: center;
+  }
+  #lightbox.open {
+    display: flex;
+  }
+  #lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  #lightbox-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 1.1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  #lightbox-close:hover {
+    background: rgba(255,255,255,0.15);
+  }
 </style>
+
+<div id="lightbox">
+  <button id="lightbox-close" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+  const lb = document.getElementById('lightbox')!;
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
+
+  function open(src: string, alt: string) {
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  document.querySelectorAll<HTMLImageElement>('.prose-vany img, .lightbox-trigger').forEach(img => {
+    img.addEventListener('click', () => open(img.src, img.alt));
+  });
+
+  document.getElementById('lightbox-close')!.addEventListener('click', close);
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+</script>

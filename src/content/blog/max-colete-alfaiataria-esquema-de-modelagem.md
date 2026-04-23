@@ -2,7 +2,7 @@
 title: "Max Colete Alfaiataria - Esquema de Modelagem"
 description: "Aprenda a transformar um molde base em um max colete de alfaiataria com pence de busto e cintura. Esquema completo de modelagem."
 date: 2024-05-08
-category: "Alfaiataria"
+category: "Modelagem"
 image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjGYhsBZRg8SUJh3MFqquMBWmoirPizM_WmMOzMrt5QkBmDgOBAxGY5UV0setTpQJrcS7IaEP2RVWj-dxwJg8BTxSjyJ4u4GqBStAS2nIgqIUbka0_zsj5uc89HJ8gK1dZGuMGtZQVfWYS4kDZx3rK4votgOOvj3fJsaSuBfPA3OOIAACWiVXTrrfo55PI/s800/Max%20Colete%20Alfaitaria%20Azul.jpg"
 featured: false
 ---

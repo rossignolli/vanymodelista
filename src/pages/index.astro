@@ -17,7 +17,7 @@ const servicos = [
     numero: '01',
   },
   {
-    titulo: 'Alfaiataria',
+    titulo: 'Alfaiataria Feminina',
     descricao: 'Ternos, blazers e peças estruturadas com acabamento impecável. Precisão técnica aliada a um olhar contemporâneo.',
     numero: '02',
   },
@@ -166,10 +166,10 @@ const portfolio = [
         <div class="h-px w-16 mb-8" style="background-color: rgba(184,137,106,0.3);"></div>
         <div class="space-y-5 font-light leading-relaxed" style="color: #8C7B74;">
           <p>
-            Com mais de vinte anos dedicados à modelagem de moda, desenvolvi um olhar que vai além do molde — enxergo a pessoa dentro da peça, seu movimento, sua história.
+            Com mais de vinte anos dedicados à costura e à modelagem de roupas femininas, desenvolvi um olhar que vai além do molde — enxergo a pessoa dentro da peça, seu movimento e sua história. Costuro desde a infância e iniciei meus estudos em modelagem em 2011, quando ainda era menina. Hoje, aos 31 anos, sigo aprofundando meu conhecimento por meio de cursos de extensão universitária voltados à modelagem de moda feminina.
           </p>
           <p>
-            Formada em Moda e especializada em Alta Costura e Alfaiataria, trabalhei com estilistas, marcas nacionais e clientes particulares que buscam o que não se encontra em prateleiras: uma peça pensada exclusivamente para eles.
+            Tenho uma conexão especial com a alfaiataria feminina, área que mais me encanta e na qual busco constante aperfeiçoamento. Ao longo da minha trajetória, venho construindo uma prática sensível e técnica, unindo precisão, caimento e identidade em cada peça.
           </p>
           <p>
             Cada projeto começa com escuta. O molde perfeito nasce de um diálogo — entre corpo, desejo e matéria-prima.
@@ -391,13 +391,13 @@ const portfolio = [
           </p>
 
           <div class="space-y-4">
-            <a href="mailto:vany@modelista.com" class="flex items-center gap-4 group">
+            <a href="mailto:vanymodelista@gmail.com" class="flex items-center gap-4 group">
               <div class="w-10 h-10 flex items-center justify-center transition-all duration-300 group-hover:bg-rose" style="border: 1px solid rgba(184,137,106,0.3);">
                 <svg class="w-4 h-4 transition-colors duration-300 group-hover:text-cream" style="color: #B8896A;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <span class="text-sm transition-colors duration-300 group-hover:text-rose" style="color: #44403C;">vany@modelista.com</span>
+              <span class="text-sm transition-colors duration-300 group-hover:text-rose" style="color: #44403C;">vanymodelista@gmail.com</span>
             </a>
             <a href="https://instagram.com/vanymodelista" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
               <div class="w-10 h-10 flex items-center justify-center transition-all duration-300" style="border: 1px solid rgba(184,137,106,0.3); background: linear-gradient(white, white) padding-box, linear-gradient(135deg, #f09433, #bc1888) border-box; border: 1px solid transparent;">
@@ -410,12 +410,19 @@ const portfolio = [
           </div>
         </div>
 
-        <form class="space-y-6" onsubmit="return false;">
+        <form id="contact-form" class="space-y-6">
+          <input type="hidden" name="access_key" value="cc34bde7-bc1d-4de4-9bec-3b2f20d3e47d" />
+          <input type="hidden" name="subject" value="Nova mensagem — Vany Modelista" />
+          <input type="hidden" name="from_name" value="Site Vany Modelista" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Nome</label>
               <input
                 type="text"
+                name="name"
+                required
                 placeholder="Seu nome"
                 class="w-full bg-transparent py-3 text-sm focus:outline-none transition-colors duration-300 placeholder-taupe/40"
                 style="border-bottom: 1px solid rgba(28,25,23,0.2); color: #1C1917;"
@@ -425,6 +432,8 @@ const portfolio = [
               <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">E-mail</label>
               <input
                 type="email"
+                name="email"
+                required
                 placeholder="seu@email.com"
                 class="w-full bg-transparent py-3 text-sm focus:outline-none transition-colors duration-300 placeholder-taupe/40"
                 style="border-bottom: 1px solid rgba(28,25,23,0.2); color: #1C1917;"
@@ -432,14 +441,28 @@ const portfolio = [
             </div>
           </div>
           <div>
+            <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Celular com DDD</label>
+            <input
+              type="tel"
+              name="celular"
+              required
+              placeholder="(11) 99999-9999"
+              maxlength="15"
+              id="celular-input"
+              class="w-full bg-transparent py-3 text-sm focus:outline-none transition-colors duration-300 placeholder-taupe/40"
+              style="border-bottom: 1px solid rgba(28,25,23,0.2); color: #1C1917;"
+            />
+          </div>
+          <div>
             <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Tipo de projeto</label>
             <select
+              name="projeto"
               class="w-full bg-transparent py-3 text-sm focus:outline-none transition-colors duration-300 appearance-none cursor-pointer"
               style="border-bottom: 1px solid rgba(28,25,23,0.2); color: #1C1917;"
             >
               <option value="" disabled selected>Selecione um serviço</option>
               <option>Modelagem Feminina</option>
-              <option>Alfaiataria</option>
+              <option>Alfaiataria Feminina</option>
               <option>Alta Costura</option>
               <option>Consultoria</option>
             </select>
@@ -447,20 +470,96 @@ const portfolio = [
           <div>
             <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-medium" style="color: #8C7B74;">Mensagem</label>
             <textarea
+              name="message"
               rows="4"
+              required
               placeholder="Conte sobre seu projeto..."
               class="w-full bg-transparent py-3 text-sm focus:outline-none transition-colors duration-300 resize-none placeholder-taupe/40"
               style="border-bottom: 1px solid rgba(28,25,23,0.2); color: #1C1917;"
             ></textarea>
           </div>
+
+          <div id="form-result" class="hidden text-sm py-3 px-4 text-center tracking-wide"></div>
+
           <button
+            id="submit-btn"
             type="submit"
-            class="w-full py-5 text-xs tracking-[0.25em] uppercase font-medium transition-colors duration-500 hover:bg-rose"
+            class="w-full py-5 text-xs tracking-[0.25em] uppercase font-medium relative overflow-hidden group"
             style="background-color: #1C1917; color: #FAF8F4;"
           >
-            Enviar Mensagem
+            <span id="btn-shimmer" class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" style="background: linear-gradient(90deg, transparent, rgba(184,137,106,0.25), transparent);"></span>
+            <span id="btn-text" class="relative flex items-center justify-center gap-3">
+              <svg id="btn-icon-send" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12zm0 0h7.5"/>
+              </svg>
+              Enviar Mensagem
+            </span>
+            <span id="btn-loading" class="hidden relative flex items-center justify-center gap-3">
+              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+              Enviando…
+            </span>
           </button>
         </form>
+
+        <script>
+          const form = document.getElementById('contact-form') as HTMLFormElement;
+          const result = document.getElementById('form-result')!;
+          const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+          const celularInput = document.getElementById('celular-input') as HTMLInputElement;
+
+          celularInput.addEventListener('input', () => {
+            let v = celularInput.value.replace(/\D/g, '').slice(0, 11);
+            if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+            else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+            else if (v.length > 0) v = `(${v}`;
+            celularInput.value = v;
+          });
+
+          const btnText = document.getElementById('btn-text')!;
+          const btnLoading = document.getElementById('btn-loading')!;
+
+          function setLoading(on: boolean) {
+            btn.disabled = on;
+            btnText.classList.toggle('hidden', on);
+            btnLoading.classList.toggle('hidden', !on);
+            btnLoading.classList.toggle('flex', on);
+          }
+
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            setLoading(true);
+
+            const data = Object.fromEntries(new FormData(form));
+
+            try {
+              const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(data),
+              });
+              const json = await res.json();
+
+              if (res.ok && json.success) {
+                result.textContent = 'Mensagem enviada com sucesso. Entrarei em contato em breve.';
+                result.style.cssText = 'color:#44403C; background:rgba(184,137,106,0.1); border:1px solid rgba(184,137,106,0.3);';
+                result.classList.remove('hidden');
+                form.reset();
+              } else {
+                throw new Error(json.message ?? 'Erro ao enviar');
+              }
+            } catch {
+              result.textContent = 'Não foi possível enviar. Tente novamente ou entre em contato pelo Instagram.';
+              result.style.cssText = 'color:#7f1d1d; background:rgba(220,38,38,0.05); border:1px solid rgba(220,38,38,0.2);';
+              result.classList.remove('hidden');
+            } finally {
+              setLoading(false);
+              btn.textContent = 'Enviar Mensagem';
+            }
+          });
+        </script>
       </div>
     </div>
   </section>

@@ -2,7 +2,7 @@
 title: "Colete Alfaiataria Cropped - Esquema de Modelagem"
 description: "Esquema de modelagem para criar um colete de alfaiataria cropped feminino. Transforme o molde base em um colete elegante e moderno."
 date: 2024-04-07
-category: "Alfaiataria"
+category: "Modelagem"
 image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEho7CFsYwzP7fV1wpQUSr2vzHo7TYz3Q5qyuMtF3ZeRlC9byTVUxx129y4qbXxd904WQN_0rgyo6R24SQTgfQw3aQUYaY-3nNrWlzaX03OdVeocxK-gxuEpRgrwRg6rblojDXb9g38OYLNmucWNR-Hb7taG7Eq7U9vl73KOISutdRUWkF8YWbTauaI7Dys/s490/e7643ea9f8f0b8f5ff7c36f4b5999906%20(1).jpg"
 featured: false
 ---
