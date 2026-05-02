@@ -20,7 +20,7 @@ const allPosts: CollectionEntry<'blog'>[] = (await getCollection('blog')).sort(
 );
 const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
 
-const postUrl = `https://vanymodelista.com.br/blog/${post.id}`;
+const postUrl = `https://vanymodelista.com.br/blog/${post.id}/`;
 const publishedDate = post.data.date.toISOString();
 const articleSchema = JSON.stringify({
   "@context": "https://schema.org",
@@ -29,6 +29,7 @@ const articleSchema = JSON.stringify({
   "description": post.data.description,
   "image": post.data.image ?? "https://vanymodelista.com.br/hero-mannequins.jpg",
   "datePublished": publishedDate,
+  "dateModified": publishedDate,
   "author": {
     "@type": "Person",
     "name": post.data.author,
@@ -40,7 +41,7 @@ const articleSchema = JSON.stringify({
     "url": "https://vanymodelista.com.br",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://vanymodelista.com.br/favicon.svg"
+      "url": "https://vanymodelista.com.br/favicon.png"
     }
   },
   "mainEntityOfPage": {
@@ -56,7 +57,9 @@ const articleSchema = JSON.stringify({
   title={`${post.data.title} — Vany Modelista`}
   description={post.data.description}
   image={post.data.image}
+  url={postUrl}
   type="article"
+  isArticle={true}
 >
   <Fragment slot="head">
     <meta property="article:published_time" content={publishedDate} />

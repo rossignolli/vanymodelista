@@ -55,31 +55,61 @@ const portfolio = [
     titulo: 'Coleção Primavera',
     categoria: 'Alta Costura',
     img: `${UNSPLASH}/photo-1490481651871-ab68de25d43d?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1490481651871-ab68de25d43d?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1509631179647-0177331693ae?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1496747611176-843222e1e57c?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
   {
     titulo: 'Alfaiataria Contemporânea',
     categoria: 'Alfaiataria',
     img: `${UNSPLASH}/photo-1445205170230-053b83016050?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1445205170230-053b83016050?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1594938298603-c8148c4b2bca?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1567401893414-76b7b1e5a7a5?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
   {
     titulo: 'Noiva Contemporânea',
     categoria: 'Alta Costura',
     img: `${UNSPLASH}/photo-1515886657613-9f3515b0c78f?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1515886657613-9f3515b0c78f?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1519741347686-c1e0aadf4611?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1511285560929-80b456fea0bc?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
   {
     titulo: 'Prêt-à-Porter',
     categoria: 'Modelagem',
     img: `${UNSPLASH}/photo-1539109136881-3be0616acf4b?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1539109136881-3be0616acf4b?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1485230895905-ec40ba36b9bc?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1483985988355-763728e1935b?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
   {
     titulo: 'Coleção Outono',
     categoria: 'Modelagem',
     img: `${UNSPLASH}/photo-1558769132-cb1aea458c5e?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1558769132-cb1aea458c5e?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1536766820879-059fec98ec0a?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1469334031218-e382a71b716b?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
   {
     titulo: 'Atelier Exclusivo',
     categoria: 'Alta Costura',
     img: `${UNSPLASH}/photo-1469334031218-e382a71b716b?w=700&h=875&fit=crop&q=80`,
+    fotos: [
+      `${UNSPLASH}/photo-1469334031218-e382a71b716b?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1490481651871-ab68de25d43d?w=1200&h=1500&fit=crop&q=85`,
+      `${UNSPLASH}/photo-1515886657613-9f3515b0c78f?w=1200&h=1500&fit=crop&q=85`,
+    ],
   },
 ];
 ---
@@ -231,7 +261,12 @@ const portfolio = [
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {portfolio.map((item) => (
-          <div class="group relative overflow-hidden cursor-pointer">
+          <div
+            class="group relative overflow-hidden cursor-pointer portfolio-card"
+            data-titulo={item.titulo}
+            data-categoria={item.categoria}
+            data-fotos={JSON.stringify(item.fotos)}
+          >
             <div class="aspect-[4/5] relative overflow-hidden">
               <img
                 src={item.img}
@@ -590,4 +625,154 @@ const portfolio = [
   </section>
 
   <Footer />
+
+  <!-- MODAL PORTFÓLIO -->
+  <div
+    id="portfolio-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center"
+    style="background-color: rgba(28,25,23,0.92); backdrop-filter: blur(6px);"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="relative w-full max-w-4xl mx-4 flex flex-col" style="max-height: 90vh;">
+      <!-- Cabeçalho -->
+      <div class="flex items-start justify-between mb-4 shrink-0">
+        <div>
+          <p id="modal-categoria" class="text-[10px] tracking-[0.3em] uppercase mb-1" style="color: #D4A88A;"></p>
+          <h3 id="modal-titulo" class="font-display text-2xl lg:text-3xl font-light" style="color: #FAF8F4;"></h3>
+        </div>
+        <button
+          id="modal-close"
+          class="ml-6 shrink-0 w-10 h-10 flex items-center justify-center transition-colors duration-200"
+          style="color: #FAF8F4; border: 1px solid rgba(250,248,244,0.2);"
+          aria-label="Fechar"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="1" y1="1" x2="15" y2="15" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="15" y1="1" x2="1" y2="15" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Imagem principal -->
+      <div class="relative overflow-hidden flex-1 min-h-0" style="background-color: #0e0c0b;">
+        <img
+          id="modal-img"
+          src=""
+          alt=""
+          class="w-full h-full object-contain transition-opacity duration-300"
+          style="max-height: 65vh;"
+        />
+        <!-- Botão anterior -->
+        <button
+          id="modal-prev"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200 hover:scale-110"
+          style="background-color: rgba(28,25,23,0.7); color: #FAF8F4; border: 1px solid rgba(250,248,244,0.15);"
+          aria-label="Foto anterior"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <!-- Botão próximo -->
+        <button
+          id="modal-next"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200 hover:scale-110"
+          style="background-color: rgba(28,25,23,0.7); color: #FAF8F4; border: 1px solid rgba(250,248,244,0.15);"
+          aria-label="Próxima foto"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 2L12 8L6 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Miniaturas + contador -->
+      <div class="flex items-center justify-between mt-4 shrink-0">
+        <div id="modal-thumbs" class="flex gap-2"></div>
+        <p id="modal-counter" class="text-xs tracking-[0.2em]" style="color: rgba(250,248,244,0.4);"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('portfolio-modal')!;
+    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+    const modalTitulo = document.getElementById('modal-titulo')!;
+    const modalCategoria = document.getElementById('modal-categoria')!;
+    const modalCounter = document.getElementById('modal-counter')!;
+    const modalThumbs = document.getElementById('modal-thumbs')!;
+
+    let fotos: string[] = [];
+    let current = 0;
+
+    function showFoto(index: number) {
+      current = (index + fotos.length) % fotos.length;
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modalImg.src = fotos[current];
+        modalImg.style.opacity = '1';
+      }, 150);
+      modalCounter.textContent = `${current + 1} / ${fotos.length}`;
+      modalThumbs.querySelectorAll('button').forEach((btn, i) => {
+        (btn as HTMLElement).style.opacity = i === current ? '1' : '0.4';
+        (btn as HTMLElement).style.borderColor = i === current ? '#D4A88A' : 'transparent';
+      });
+    }
+
+    function openModal(titulo: string, categoria: string, fotosArr: string[]) {
+      fotos = fotosArr;
+      current = 0;
+      modalTitulo.textContent = titulo;
+      modalCategoria.textContent = categoria;
+
+      // Miniaturas
+      modalThumbs.innerHTML = '';
+      fotos.forEach((src, i) => {
+        const btn = document.createElement('button');
+        btn.style.cssText = 'width:52px;height:64px;overflow:hidden;border:2px solid transparent;transition:all 0.2s;';
+        btn.innerHTML = `<img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/>`;
+        btn.addEventListener('click', () => showFoto(i));
+        modalThumbs.appendChild(btn);
+      });
+
+      showFoto(0);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    // Abrir ao clicar no card
+    document.querySelectorAll('.portfolio-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        const el = card as HTMLElement;
+        const titulo = el.dataset.titulo ?? '';
+        const categoria = el.dataset.categoria ?? '';
+        const fotosArr = JSON.parse(el.dataset.fotos ?? '[]') as string[];
+        openModal(titulo, categoria, fotosArr);
+      });
+    });
+
+    // Fechar
+    document.getElementById('modal-close')!.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // Navegação
+    document.getElementById('modal-prev')!.addEventListener('click', (e) => { e.stopPropagation(); showFoto(current - 1); });
+    document.getElementById('modal-next')!.addEventListener('click', (e) => { e.stopPropagation(); showFoto(current + 1); });
+
+    // Teclado
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') showFoto(current - 1);
+      if (e.key === 'ArrowRight') showFoto(current + 1);
+    });
+  </script>
 </Layout>
