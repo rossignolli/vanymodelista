@@ -3,7 +3,7 @@ title: "Por Dentro do Processo: Como é Criar um Vestido de Noiva Sob Medida"
 description: "Da primeira conversa ao dia do casamento — como funciona o processo completo de criação de um vestido de noiva no atelier, etapa por etapa."
 date: 2024-07-25
 category: "Bastidores"
-image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&h=630&fit=crop&q=85"
+image: "/blog/vestido-de-noiva.jpg"
 featured: true
 ---
 
